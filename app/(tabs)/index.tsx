@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {
   Image,
   StyleSheet,
@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   View,
   ImageSourcePropType,
+  Pressable,
 } from 'react-native';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import ThemedScrollView from '@/components/ThemedScrollView';
 
-import { coffeeMenu } from '@/utils/data';
+import { AppContext } from '@/utils/appContext';
 
 type ItemData = {
   id: number;
@@ -52,10 +52,18 @@ const Item = ({ item, onPress }: ItemProps) => (
         <ThemedText style={styles.menuUnit}>{item.unit}</ThemedText>
       </View>
     </View>
+
+    <View>
+      <Pressable style={styles.button}>
+        <ThemedText style={styles.buttonText}>Place Order</ThemedText>
+      </Pressable>
+    </View>
   </TouchableOpacity>
 );
 
 export default function Home() {
+  const { products } = useContext(AppContext);
+
   const [selectedId, setSelectedId] = useState<number>();
 
   const renderItem = ({ item }: { item: ItemData }) => {
@@ -66,25 +74,34 @@ export default function Home() {
     <SafeAreaView style={styles.wrapper}>
       <ThemedView
         style={{
-          paddingVertical: 40,
-          paddingHorizontal: 16,
+          paddingBottom: 50,
+          flex: 1,
         }}
       >
-        <ThemedText style={styles.header}>Welcome to Tastebud Cafe</ThemedText>
+        <ThemedView
+          style={{
+            paddingVertical: 40,
+            paddingHorizontal: 16,
+          }}
+        >
+          <ThemedText style={styles.header}>
+            Welcome to Tastebud Cafe
+          </ThemedText>
 
-        <ThemedText style={styles.menu}>
-          Here's our menu for today ☕️
-        </ThemedText>
-      </ThemedView>
+          <ThemedText style={styles.menu}>
+            Here's our menu for today ☕️
+          </ThemedText>
+        </ThemedView>
 
-      <ThemedView style={styles.menuList}>
-        <FlatList
-          numColumns={2}
-          data={coffeeMenu}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
-          extraData={selectedId}
-        />
+        <ThemedView style={styles.menuList}>
+          <FlatList
+            numColumns={2}
+            data={products}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id.toString()}
+            extraData={selectedId}
+          />
+        </ThemedView>
       </ThemedView>
     </SafeAreaView>
   );
@@ -93,6 +110,7 @@ export default function Home() {
 export const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    paddingBottom: 100,
   },
   header: {
     fontSize: 24,
@@ -139,5 +157,17 @@ export const styles = StyleSheet.create({
 
   menuUnit: {
     fontSize: 12,
+  },
+  button: {
+    paddingVertical: 14,
+    backgroundColor: '#F3E3BF',
+    color: '#996A22',
+    borderRadius: 8,
+  },
+  buttonText: {
+    fontWeight: '600',
+    fontSize: 20,
+    textAlign: 'center',
+    fontFamily: 'Catamaran',
   },
 });
