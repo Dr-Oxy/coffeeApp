@@ -8,6 +8,7 @@ export interface Item {
   unit: string;
   img: ImageSourcePropType;
   isFave: boolean;
+  qty?: number;
 }
 
 export type AppContextType = {
@@ -15,6 +16,9 @@ export type AppContextType = {
   setCart: (cart: Item[]) => void;
   products: Item[];
   setProducts: (products: Item[]) => void;
+  onAdd: (product: Item) => void;
+  onRemove: (product: Item) => void;
+  onDelete: (product: Item) => void;
 };
 
 export interface PropsWithChildren {
@@ -27,6 +31,9 @@ const defaultContextValue: AppContextType = {
   setCart: () => {},
   products: [],
   setProducts: () => {},
+  onAdd: () => {},
+  onRemove: () => {},
+  onDelete: () => {},
 };
 
 export const AppContext = createContext<AppContextType>(defaultContextValue);
@@ -108,11 +115,57 @@ export const AppContextProvider = ({ children }: PropsWithChildren) => {
     },
   ]);
 
+  const onAdd = (product: Item) => {
+    //checks if the product already exist in the cart
+    const itemExist = cart.find((x) => x.id === product.id);
+
+    //If product exists in cart
+    if (itemExist) {
+      setCart(
+        cart.map((x) =>
+          x.id === product.id
+            ? { ...itemExist, qty: (itemExist.qty || 0) + 1 }
+            : x,
+        ),
+      );
+    } else {
+      //if product doesn't exist in cart, add to cart
+      setCart([...cart, { ...product, qty: 1 }]);
+    }
+  };
+
+  const onRemove = (product: Item) => {
+    const itemExist = cart.find((x) => x.id === product.id);
+
+    if (itemExist && itemExist.qty === 1) {
+      setCart(cart.filter((x) => x.id !== product.id));
+    } else if (itemExist) {
+      setCart(
+        cart.map((x) =>
+          x.id === product.id
+            ? { ...itemExist, qty: (itemExist.qty || 0) - 1 }
+            : x,
+        ),
+      );
+    }
+  };
+
+  const onDelete = (product: Item) => {
+    const itemExist = cart.find((x) => x.id === product.id);
+
+    if (itemExist) {
+      setCart(cart.filter((x) => x.id !== product.id));
+    }
+  };
+
   const value = {
     products,
     setProducts,
     cart,
     setCart,
+    onAdd,
+    onRemove,
+    onDelete,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
