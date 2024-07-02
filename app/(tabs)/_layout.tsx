@@ -63,7 +63,7 @@ export default function TabLayout() {
                 style={{
                   height: 30,
                   width: 30,
-                  backgroundColor: 'red',
+                  backgroundColor: 'rgb(204, 120, 82)',
                   borderRadius: 50,
                   flexDirection: 'row',
                   alignItems: 'center',
