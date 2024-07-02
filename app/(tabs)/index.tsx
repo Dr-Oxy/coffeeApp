@@ -1,93 +1,47 @@
-import { useState, useContext } from 'react';
-import {
-  Image,
-  StyleSheet,
-  SafeAreaView,
-  FlatList,
-  TouchableOpacity,
-  View,
-  ImageSourcePropType,
-  Pressable,
-} from 'react-native';
+import { useState, useContext, useEffect } from 'react';
+import { StyleSheet, SafeAreaView, FlatList } from 'react-native';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
+import { MenuCard } from '@/components/MenuCard';
+import { ViewItem } from '@/components/ViewItem';
 
 import { AppContext } from '@/utils/appContext';
-
-type ItemData = {
-  id: number;
-  title: string;
-  price: string;
-  unit: string;
-  img: ImageSourcePropType;
-  isFave: boolean;
-};
-
-type ItemProps = {
-  item: ItemData;
-  onPress: () => void;
-};
-
-const Item = ({ item, onPress }: ItemProps) => (
-  <TouchableOpacity onPress={onPress} style={styles.menuItem}>
-    <View>
-      <Image style={styles.menuImage} source={item.img} />
-    </View>
-
-    <View
-      style={{
-        padding: 8,
-      }}
-    >
-      <ThemedText style={styles.menuTitle}>{item.title}</ThemedText>
-
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'flex-end',
-        }}
-      >
-        <ThemedText style={styles.menuPrice}>{item.price}</ThemedText>
-        <ThemedText style={styles.menuUnit}>{item.unit}</ThemedText>
-      </View>
-    </View>
-
-    <View>
-      <Pressable style={styles.button}>
-        <ThemedText style={styles.buttonText}>Place Order</ThemedText>
-      </Pressable>
-    </View>
-  </TouchableOpacity>
-);
+import { Item } from '@/utils/@types/context';
 
 export default function Home() {
-  const { products } = useContext(AppContext);
+  const { products, onAdd, onRemove, selected, setSelected, cart } =
+    useContext(AppContext);
 
-  const [selectedId, setSelectedId] = useState<number>();
+  const [openModal, setOpenModal] = useState(false);
 
-  const renderItem = ({ item }: { item: ItemData }) => {
-    return <Item item={item} onPress={() => setSelectedId(item.id)} />;
+  const openOptions = () => {
+    setOpenModal(!openModal);
+  };
+
+  const handleClick = (product: Item) => {
+    onAdd(product);
+    setSelected({ ...product, qty: (product?.qty || 0) + 1 });
+    openOptions();
+  };
+
+  useEffect(() => {
+    if (selected?.qty < 1) {
+      setOpenModal(false);
+    }
+  }, [selected]);
+
+  const renderItem = ({ item }: { item: Item }) => {
+    return <MenuCard item={item} onPress={() => handleClick(item)} />;
   };
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <ThemedView
-        style={{
-          paddingBottom: 50,
-          flex: 1,
-        }}
-      >
-        <ThemedView
-          style={{
-            paddingVertical: 40,
-            paddingHorizontal: 16,
-          }}
-        >
+      <ThemedView style={{ paddingBottom: 50, flex: 1 }}>
+        <ThemedView style={{ paddingVertical: 40, paddingHorizontal: 16 }}>
           <ThemedText style={styles.header}>
-            Welcome to Tastebud Cafe
+            Welcome to Tastebud Cafes
           </ThemedText>
-
           <ThemedText style={styles.menu}>
             Here's our menu for today ☕️
           </ThemedText>
@@ -99,9 +53,13 @@ export default function Home() {
             data={products}
             renderItem={renderItem}
             keyExtractor={(item) => item.id.toString()}
-            extraData={selectedId}
+            extraData={selected}
           />
         </ThemedView>
+      </ThemedView>
+
+      <ThemedView>
+        <ViewItem openModal={openModal} openOptions={openOptions} />
       </ThemedView>
     </SafeAreaView>
   );
@@ -130,44 +88,93 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 
-  menuItem: {
-    width: '50%',
-    // marginBottom: 20,
-    borderRadius: 8,
-    borderColor: '#f5f5f5',
-    borderWidth: 1,
+  lead: {
+    fontSize: 32,
+    color: '#F3E3BF',
+    fontWeight: '600',
+    marginBottom: 8,
   },
 
-  menuTitle: {
-    fontSize: 16,
-    fontWeight: 600,
-  },
-
-  menuImage: {
-    height: 160,
-    width: '100%',
-    resizeMode: 'contain',
-  },
-
-  menuPrice: {
+  sub: {
     fontSize: 20,
-    marginVertical: 4,
-    fontWeight: 700,
+    color: 'rgba(243, 227, 191, 0.7)',
   },
 
-  menuUnit: {
-    fontSize: 12,
+  modal: {
+    flex: 1,
+    position: 'relative',
+    backgroundColor: 'transparent',
   },
+
+  modalBody: {
+    paddingTop: 30,
+    paddingHorizontal: 16,
+    borderRadius: 32,
+    height: '80%',
+    backgroundColor: '#482B29',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+
   button: {
-    paddingVertical: 14,
+    alignSelf: 'flex-start',
+    padding: 10,
     backgroundColor: '#F3E3BF',
-    color: '#996A22',
     borderRadius: 8,
+    marginLeft: 'auto',
   },
   buttonText: {
     fontWeight: '600',
     fontSize: 20,
     textAlign: 'center',
-    fontFamily: 'Catamaran',
+  },
+
+  menuItem: {
+    width: '80%',
+    marginHorizontal: 'auto',
+    marginTop: 30,
+    borderRadius: 8,
+  },
+
+  menuImage: {
+    height: 280,
+    width: '100%',
+    resizeMode: 'contain',
+  },
+
+  menuTitle: {
+    fontSize: 32,
+    fontWeight: 600,
+    lineHeight: 30,
+    color: 'white',
+  },
+
+  menuPrice: {
+    color: 'white',
+    fontSize: 32,
+    fontWeight: 700,
+  },
+
+  menuUnit: {
+    fontSize: 18,
+    color: 'white',
+  },
+
+  qtyWrap: {
+    marginTop: 24,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 12,
+  },
+
+  qty_button: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+
+    backgroundColor: '#F3E3BF',
+    borderRadius: 8,
   },
 });
