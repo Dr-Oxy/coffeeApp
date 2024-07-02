@@ -1,29 +1,20 @@
 import React, { useState, createContext, ReactNode } from 'react';
-import { ImageSourcePropType } from 'react-native';
 
-export interface Item {
-  id: number;
-  title: string;
-  price: string;
-  unit: string;
-  img: ImageSourcePropType;
-  isFave: boolean;
-  qty?: number;
-}
-
-export type AppContextType = {
-  cart: Item[];
-  setCart: (cart: Item[]) => void;
-  products: Item[];
-  setProducts: (products: Item[]) => void;
-  onAdd: (product: Item) => void;
-  onRemove: (product: Item) => void;
-  onDelete: (product: Item) => void;
-};
+import { AppContextType, Item } from './@types/context';
 
 export interface PropsWithChildren {
   children: ReactNode;
 }
+
+const emptyItem: Item = {
+  id: 1,
+  title: '',
+  price: 0,
+  unit: '',
+  img: require('@/assets/images/americano.png'),
+  isFave: false,
+  qty: 1,
+};
 
 // Provide a default value for the context
 const defaultContextValue: AppContextType = {
@@ -34,84 +25,97 @@ const defaultContextValue: AppContextType = {
   onAdd: () => {},
   onRemove: () => {},
   onDelete: () => {},
+  selected: emptyItem,
+  setSelected: () => {},
 };
 
+// export const AppContext = createContext<AppContextType>(defaultContextValue);
 export const AppContext = createContext<AppContextType>(defaultContextValue);
 
 export const AppContextProvider = ({ children }: PropsWithChildren) => {
   const [cart, setCart] = useState<Item[]>([]);
+  const [selected, setSelected] = useState<any>();
   const [products, setProducts] = useState<Item[]>([
     {
       id: 1,
       title: 'Americano',
-      price: '1800',
+      price: 1800,
       unit: '/cup',
       img: require('@/assets/images/americano.png'),
       isFave: false,
+      qty: 0,
     },
     {
       id: 2,
       title: 'Cappuccino',
-      price: '2200',
+      price: 2200,
       unit: '/cup',
       img: require('@/assets/images/cappuccino.png'),
       isFave: true,
+      qty: 0,
     },
     {
       id: 3,
       title: 'Espresso',
-      price: '1950',
+      price: 1950,
       unit: '/cup',
       img: require('@/assets/images/expresso.png'),
       isFave: false,
+      qty: 0,
     },
     {
       id: 4,
       title: 'Latte',
-      price: '2200',
+      price: 2200,
       unit: '/cup',
       img: require('@/assets/images/latte.png'),
       isFave: true,
+      qty: 0,
     },
     {
       id: 5,
       title: 'Macchiato',
-      price: '2000',
+      price: 2000,
       unit: '/cup',
       img: require('@/assets/images/macchiato.png'),
       isFave: false,
+      qty: 0,
     },
     {
       id: 6,
       title: 'Iced Cold Brew',
-      price: '1900',
+      price: 1900,
       unit: '/cup',
       img: require('@/assets/images/iced_cold_brew.png'),
       isFave: true,
+      qty: 0,
     },
     {
       id: 7,
       title: 'Frappuccino',
-      price: '3500',
+      price: 3500,
       unit: '/cup',
       img: require('@/assets/images/frappuccino.png'),
       isFave: true,
+      qty: 0,
     },
     {
       id: 8,
       title: 'Caffé Mocha',
-      price: '3850',
+      price: 3850,
       unit: '/cup',
       img: require('@/assets/images/caffe-mocha.png'),
       isFave: true,
+      qty: 0,
     },
     {
       id: 9,
       title: 'Black Eye',
-      price: '1050',
+      price: 1050,
       unit: '/cup',
       img: require('@/assets/images/expresso.png'),
       isFave: false,
+      qty: 0,
     },
   ]);
 
@@ -166,6 +170,8 @@ export const AppContextProvider = ({ children }: PropsWithChildren) => {
     onAdd,
     onRemove,
     onDelete,
+    selected,
+    setSelected,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

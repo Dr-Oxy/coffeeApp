@@ -1,18 +1,24 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import { Tabs } from 'expo-router';
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
+import { ThemedText } from '@/components/ThemedText';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+
+import { AppContext } from '@/utils/appContext';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+  const { cart } = useContext(AppContext);
+
   return (
     <Tabs
       screenOptions={{
+        tabBarShowLabel: false,
         tabBarStyle: {
           flexDirection: 'row',
           justifyContent: 'center',
@@ -33,19 +39,18 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Menu',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? 'cafe' : 'cafe-outline'}
               color={color}
             />
           ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Explore',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? 'code-slash' : 'code-slash-outline'}
@@ -58,12 +63,34 @@ export default function TabLayout() {
       <Tabs.Screen
         name="cart"
         options={{
-          title: 'Cart',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? 'cart' : 'cart-outline'}
-              color={color}
-            />
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+              <TabBarIcon
+                name={focused ? 'cart' : 'cart-outline'}
+                color={color}
+              />
+
+              <View
+                style={{
+                  height: 30,
+                  width: 30,
+                  backgroundColor: 'red',
+                  borderRadius: 50,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <ThemedText
+                  style={{
+                    color: '#fff',
+                    fontSize: 16,
+                  }}
+                >
+                  {cart?.length}
+                </ThemedText>
+              </View>
+            </View>
           ),
         }}
       />
