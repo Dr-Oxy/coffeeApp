@@ -48,17 +48,6 @@ export default function TabLayout() {
           headerShown: false,
         }}
       />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? 'code-slash' : 'code-slash-outline'}
-              color={color}
-            />
-          ),
-        }}
-      />
 
       <Tabs.Screen
         name="cart"

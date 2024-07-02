@@ -1,4 +1,7 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
+import { Link } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
+
 import { StyleSheet, Modal, Pressable, View, Image, Text } from 'react-native';
 
 import { ThemedView } from '@/components/ThemedView';
@@ -6,15 +9,26 @@ import { ThemedText } from '@/components/ThemedText';
 
 import { AppContext } from '@/utils/appContext';
 import { Item } from '@/utils/@types/context';
+import { converIntl } from '@/utils/helper';
 
 type ModalProps = {
   openModal: boolean;
   openOptions: () => void;
 };
 
+type NavigationOptions = {
+  [key: string]: any;
+};
+
 export const ViewItem = ({ openModal, openOptions }: ModalProps) => {
-  const { cart, onAdd, onRemove, selected, setSelected } =
-    useContext(AppContext);
+  const navigation = useNavigation<NavigationOptions>();
+
+  const goToCart = () => {
+    openOptions();
+    navigation.navigate('cart');
+  };
+
+  const { onAdd, onRemove, selected, setSelected } = useContext(AppContext);
 
   const increaseCart = (product: Item) => {
     onAdd(product);
@@ -41,7 +55,15 @@ export const ViewItem = ({ openModal, openOptions }: ModalProps) => {
         <ThemedView style={styles.modal}>
           <ThemedView style={styles.modalBody}>
             <Pressable onPress={openOptions} style={styles.button}>
-              <ThemedText style={styles.buttonText}>Close</ThemedText>
+              <ThemedText
+                style={{
+                  fontSize: 20,
+                  color: 'white',
+                  fontWeight: 600,
+                }}
+              >
+                Continue Shopping
+              </ThemedText>
             </Pressable>
 
             <View style={styles.menuItem}>
@@ -53,13 +75,13 @@ export const ViewItem = ({ openModal, openOptions }: ModalProps) => {
                 <ThemedText style={styles.menuTitle}>
                   {selected?.title}
                 </ThemedText>
-                <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                <View>
                   <Text style={styles.menuPrice}>
-                    ₦{selected ? selected.price * (selected.qty ?? 0) : 0}
+                    ₦
+                    {converIntl(
+                      selected ? selected.price * (selected.qty ?? 0) : 0,
+                    )}
                   </Text>
-                  <ThemedText style={styles.menuUnit}>
-                    {selected?.unit}
-                  </ThemedText>
                 </View>
               </View>
 
@@ -82,6 +104,10 @@ export const ViewItem = ({ openModal, openOptions }: ModalProps) => {
                   <Text style={styles.buttonText}>+</Text>
                 </Pressable>
               </View>
+
+              <Pressable onPress={goToCart} style={styles.checkButton}>
+                <ThemedText style={styles.checkText}>Go to Checkout</ThemedText>
+              </Pressable>
             </View>
           </ThemedView>
         </ThemedView>
@@ -111,15 +137,19 @@ export const styles = StyleSheet.create({
 
   button: {
     alignSelf: 'flex-start',
-    padding: 10,
-    backgroundColor: '#F3E3BF',
-    borderRadius: 8,
+    borderRadius: 12,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    backgroundColor: '#440202',
     marginLeft: 'auto',
+    borderWidth: 1,
+    borderColor: 'white',
   },
   buttonText: {
     fontWeight: '600',
     fontSize: 20,
     textAlign: 'center',
+    color: 'white',
   },
 
   menuItem: {
@@ -130,22 +160,25 @@ export const styles = StyleSheet.create({
   },
 
   menuImage: {
-    height: 280,
+    height: 200,
     width: '100%',
     resizeMode: 'contain',
   },
 
   menuTitle: {
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: 600,
     lineHeight: 30,
     color: 'white',
+    textAlign: 'center',
   },
 
   menuPrice: {
     color: 'white',
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 700,
+    textAlign: 'center',
+    marginTop: 10,
   },
 
   menuUnit: {
@@ -165,7 +198,23 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 14,
 
-    backgroundColor: '#F3E3BF',
+    borderColor: '#F3E3BF',
+    borderWidth: 1,
     borderRadius: 8,
+  },
+
+  checkButton: {
+    width: '100%',
+    borderRadius: 12,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    backgroundColor: 'white',
+    marginTop: 24,
+  },
+  checkText: {
+    fontWeight: '600',
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'black',
   },
 });
