@@ -138,6 +138,7 @@ export const AppContextProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  // delete cart item
   const onRemove = (product: Item) => {
     const itemExist = cart.find((x) => x.id === product.id);
 

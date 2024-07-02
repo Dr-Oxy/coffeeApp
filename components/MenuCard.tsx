@@ -17,7 +17,7 @@ type ItemProps = {
 };
 
 export const MenuCard = ({ item, onPress }: ItemProps) => (
-  <TouchableOpacity style={styles.menuItem}>
+  <TouchableOpacity onPress={onPress} style={styles.menuItem}>
     <View>
       <Image style={styles.menuImage} source={item.img} />
     </View>
@@ -40,10 +40,8 @@ export const MenuCard = ({ item, onPress }: ItemProps) => (
       </View>
     </View>
 
-    <View>
-      <Pressable onPress={onPress} style={styles.button}>
-        <ThemedText style={styles.buttonText}>Place Order</ThemedText>
-      </Pressable>
+    <View style={styles.button}>
+      <ThemedText style={styles.buttonText}>Add +</ThemedText>
     </View>
   </TouchableOpacity>
 );
@@ -51,7 +49,8 @@ export const MenuCard = ({ item, onPress }: ItemProps) => (
 const styles = StyleSheet.create({
   menuItem: {
     width: '50%',
-    // marginBottom: 20,
+    marginHorizontal: 2,
+    marginVertical: 8,
     borderRadius: 8,
     borderColor: '#f5f5f5',
     borderWidth: 1,
@@ -77,16 +76,17 @@ const styles = StyleSheet.create({
   menuUnit: {
     fontSize: 12,
   },
+
   button: {
     paddingVertical: 14,
-    backgroundColor: '#F3E3BF',
-    color: '#996A22',
+    backgroundColor: '#440202',
+
     borderRadius: 8,
   },
   buttonText: {
     fontWeight: '600',
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
-    fontFamily: 'Catamaran',
+    color: 'white',
   },
 });

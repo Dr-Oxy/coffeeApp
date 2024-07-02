@@ -39,12 +39,8 @@ export default function Home() {
     <SafeAreaView style={styles.wrapper}>
       <ThemedView style={{ paddingBottom: 50, flex: 1 }}>
         <ThemedView style={{ paddingVertical: 40, paddingHorizontal: 16 }}>
-          <ThemedText style={styles.header}>
-            Welcome to Tastebud Cafes
-          </ThemedText>
-          <ThemedText style={styles.menu}>
-            Here's our menu for today ☕️
-          </ThemedText>
+          <ThemedText style={styles.header}>Tastebud Cafe ☕️</ThemedText>
+          <ThemedText style={styles.sub}>Here's our menu for today.</ThemedText>
         </ThemedView>
 
         <ThemedView style={styles.menuList}>
@@ -71,8 +67,16 @@ export const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   header: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: 700,
+    lineHeight: 30,
+    color: '#440202',
+  },
+
+  sub: {
+    marginTop: 10,
+    fontSize: 20,
+    color: '#440202',
   },
 
   menu: {
@@ -86,18 +90,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
     gap: 8,
     paddingHorizontal: 16,
-  },
-
-  lead: {
-    fontSize: 32,
-    color: '#F3E3BF',
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-
-  sub: {
-    fontSize: 20,
-    color: 'rgba(243, 227, 191, 0.7)',
   },
 
   modal: {
