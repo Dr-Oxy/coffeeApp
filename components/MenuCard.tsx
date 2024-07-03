@@ -45,8 +45,8 @@ export const MenuCard = ({ item, onPress }: ItemProps) => (
 
 const styles = StyleSheet.create({
   menuItem: {
-    width: '50%',
-    marginHorizontal: 2,
+    flex: 0.5,
+    marginHorizontal: 8,
     marginVertical: 8,
     borderRadius: 8,
     borderColor: '#f5f5f5',
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
 
   menuImage: {
-    height: 160,
+    height: 120,
     width: '100%',
     resizeMode: 'contain',
   },

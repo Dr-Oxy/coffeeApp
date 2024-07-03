@@ -1,6 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { StyleSheet, SafeAreaView, FlatList } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StyleSheet, SafeAreaView, FlatList, View } from 'react-native';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
@@ -11,8 +10,7 @@ import { AppContext } from '@/utils/appContext';
 import { Item } from '@/utils/@types/context';
 
 export default function Home() {
-  const { products, onAdd, selected, setSelected, cart } =
-    useContext(AppContext);
+  const { products, onAdd, selected, setSelected } = useContext(AppContext);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -93,8 +91,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     gap: 8,
-    paddingHorizontal: 16,
-    // paddingBottom: 40,
+    paddingBottom: 88,
   },
 
   modal: {
