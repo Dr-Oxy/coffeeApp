@@ -61,19 +61,20 @@ export default function TabLayout() {
 
               <View
                 style={{
-                  height: 30,
-                  width: 30,
-                  backgroundColor: 'rgb(204, 120, 82)',
+                  height: 24,
+                  width: 24,
+                  backgroundColor: focused ? 'rgb(204, 120, 82)' : '#fff',
                   borderRadius: 50,
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  marginBottom: 3,
                 }}
               >
                 <ThemedText
                   style={{
-                    color: '#fff',
-                    fontSize: 16,
+                    color: focused ? '#fff' : '#111',
+                    fontSize: 12,
                   }}
                 >
                   {cart?.length}
