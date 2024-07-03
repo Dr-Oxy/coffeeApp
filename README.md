@@ -61,7 +61,9 @@ To get started with this repository, follow these steps:
 
 Download the latest app version of the app using the link below:
 
-- [Download APK](https://github.com/expo/expo):
+- [Download APK](https://expo.dev/artifacts/eas/5MWWDPYpcS1DxBhqjKYjyt.apk):
+
+- [Appetize.ioLink](https://appetize.io/app/hfscuqin5gnbsqsokbsjpotrcu?device=pixel7&osVersion=13.0)
 
 ## Contributing
 
