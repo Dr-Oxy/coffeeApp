@@ -20,6 +20,14 @@ This is a simple shopping mobile application built using React Native (Expo), th
 
 ## Screenshots.
 
+![Home page](assets/screenshots/Add-to-Cart.png)
+
+![Add to cart](assets/screenshots/Add-to-Cart.png)
+
+![cart](assets/screenshots/Cart.png)
+
+![successful order](assets/screenshots/Success.png)
+
 ## Installations
 
 To get started with this repository, follow these steps:
