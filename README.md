@@ -20,7 +20,7 @@ This is a simple shopping mobile application built using React Native (Expo), th
 
 ## Screenshots.
 
-![Home page](assets/screenshots/Add-to-Cart.png)
+![Home page](assets/screenshots/Menu.png)
 
 ![Add to cart](assets/screenshots/Add-to-Cart.png)
 
