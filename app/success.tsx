@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
 
   header: {
     fontSize: 40,
-    fontWeight: 700,
+    fontWeight: '700',
     marginBottom: 10,
     lineHeight: 40,
     color: 'white',

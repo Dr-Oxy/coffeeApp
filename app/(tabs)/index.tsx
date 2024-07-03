@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { StyleSheet, SafeAreaView, FlatList } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
@@ -10,24 +11,28 @@ import { AppContext } from '@/utils/appContext';
 import { Item } from '@/utils/@types/context';
 
 export default function Home() {
-  const { products, onAdd, onRemove, selected, setSelected, cart } =
+  const { products, onAdd, selected, setSelected, cart } =
     useContext(AppContext);
 
   const [openModal, setOpenModal] = useState(false);
 
-  const openOptions = () => {
-    setOpenModal(!openModal);
+  const show = () => {
+    setOpenModal(true);
+  };
+
+  const hide = () => {
+    setOpenModal(false);
   };
 
   const handleClick = (product: Item) => {
     onAdd(product);
     setSelected({ ...product, qty: (product?.qty || 0) + 1 });
-    openOptions();
+    show();
   };
 
   useEffect(() => {
     if (selected?.qty < 1) {
-      setOpenModal(false);
+      hide();
     }
   }, [selected]);
 
@@ -37,7 +42,7 @@ export default function Home() {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <ThemedView style={{ paddingBottom: 50, flex: 1 }}>
+      <ThemedView style={{ flex: 1 }}>
         <ThemedView style={{ paddingVertical: 40, paddingHorizontal: 16 }}>
           <ThemedText style={styles.header}>Tastebud Cafe ☕️</ThemedText>
           <ThemedText style={styles.sub}>Here's our menu for today.</ThemedText>
@@ -55,7 +60,7 @@ export default function Home() {
       </ThemedView>
 
       <ThemedView>
-        <ViewItem openModal={openModal} openOptions={openOptions} />
+        <ViewItem openModal={openModal} hide={hide} />
       </ThemedView>
     </SafeAreaView>
   );
@@ -64,11 +69,11 @@ export default function Home() {
 export const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    paddingBottom: 100,
   },
   header: {
+    paddingTop: 40,
     fontSize: 32,
-    fontWeight: 700,
+    fontWeight: '700',
     lineHeight: 30,
     color: '#440202',
   },
@@ -81,7 +86,6 @@ export const styles = StyleSheet.create({
 
   menu: {
     fontSize: 18,
-    fontWeight: 400,
   },
 
   menuList: {
@@ -90,6 +94,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
     gap: 8,
     paddingHorizontal: 16,
+    // paddingBottom: 40,
   },
 
   modal: {
@@ -138,7 +143,7 @@ export const styles = StyleSheet.create({
 
   menuTitle: {
     fontSize: 32,
-    fontWeight: 600,
+    fontWeight: '600',
     lineHeight: 30,
     color: 'white',
   },
@@ -146,7 +151,7 @@ export const styles = StyleSheet.create({
   menuPrice: {
     color: 'white',
     fontSize: 32,
-    fontWeight: 700,
+    fontWeight: '700',
   },
 
   menuUnit: {

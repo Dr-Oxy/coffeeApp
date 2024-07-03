@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Tabs } from 'expo-router';
 
@@ -26,11 +26,12 @@ export default function TabLayout() {
           bottom: 0,
           left: 0,
           right: 0,
-          backgroundColor: '#2f0202',
-          borderRadius: 32,
+          backgroundColor: '#440202',
+          // borderRadius: 32,
+          borderTopLeftRadius: 32,
+          borderTopRightRadius: 32,
           paddingTop: 10,
           height: 84,
-          ...styles.shadow,
         },
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
@@ -86,16 +87,3 @@ export default function TabLayout() {
     </Tabs>
   );
 }
-
-export const styles = StyleSheet.create({
-  shadow: {
-    shadowColor: '#7F5DF0',
-    shadowOpacity: 0.25,
-    elevation: 4,
-    shadowRadius: 3.5,
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-  },
-});

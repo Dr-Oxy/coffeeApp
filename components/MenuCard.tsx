@@ -1,15 +1,10 @@
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Pressable,
-} from 'react-native';
-
-import { ThemedText } from './ThemedText';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Image, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 
 import { Item } from '@/utils/@types/context';
+
+import { converIntl } from '@/utils/helper';
 
 type ItemProps = {
   item: Item;
@@ -27,7 +22,7 @@ export const MenuCard = ({ item, onPress }: ItemProps) => (
         padding: 8,
       }}
     >
-      <ThemedText style={styles.menuTitle}>{item.title}</ThemedText>
+      <Text style={styles.menuTitle}>{item.title}</Text>
 
       <View
         style={{
@@ -35,13 +30,15 @@ export const MenuCard = ({ item, onPress }: ItemProps) => (
           alignItems: 'flex-end',
         }}
       >
-        <ThemedText style={styles.menuPrice}>{item.price}</ThemedText>
-        <ThemedText style={styles.menuUnit}>{item.unit}</ThemedText>
+        <Text style={styles.menuPrice}> ₦{converIntl(item?.price)}</Text>
+        <Text style={styles.menuUnit}>{item.unit}</Text>
       </View>
     </View>
 
     <View style={styles.button}>
-      <ThemedText style={styles.buttonText}>Add +</ThemedText>
+      <Text style={styles.buttonText}>
+        <Ionicons size={28} name="cart-outline" color="white" />
+      </Text>
     </View>
   </TouchableOpacity>
 );
@@ -54,11 +51,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: '#f5f5f5',
     borderWidth: 1,
+    paddingBottom: 16,
   },
 
   menuTitle: {
-    fontSize: 16,
-    fontWeight: 600,
+    fontSize: 24,
+    fontWeight: '600',
   },
 
   menuImage: {
@@ -70,22 +68,25 @@ const styles = StyleSheet.create({
   menuPrice: {
     fontSize: 20,
     marginVertical: 4,
-    fontWeight: 700,
+    fontWeight: '700',
   },
 
   menuUnit: {
-    fontSize: 12,
+    fontSize: 16,
   },
 
   button: {
-    paddingVertical: 14,
+    alignSelf: 'flex-end',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
     backgroundColor: '#440202',
-
+    marginTop: 8,
     borderRadius: 8,
+    marginRight: 16,
   },
   buttonText: {
     fontWeight: '600',
-    fontSize: 18,
+    fontSize: 24,
     textAlign: 'center',
     color: 'white',
   },

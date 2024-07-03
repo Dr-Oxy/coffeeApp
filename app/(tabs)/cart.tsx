@@ -46,9 +46,16 @@ export default function Cart() {
   return (
     <SafeAreaView style={styles.wrapper}>
       <ThemedScrollView>
-        <ThemedView>
-          <ThemedText style={styles.header}>
-            Cart <ThemedText>({cart?.length})</ThemedText>
+        <ThemedView
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <ThemedText style={styles.header}>Cart </ThemedText>
+
+          <ThemedText style={{ fontSize: 28, lineHeight: 40 }}>
+            ({cart?.length})
           </ThemedText>
         </ThemedView>
 
@@ -184,11 +191,11 @@ export default function Cart() {
 export const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    paddingBottom: 100,
   },
   header: {
-    fontSize: 24,
-    fontWeight: 700,
+    paddingTop: 40,
+    fontSize: 32,
+    fontWeight: '700',
     paddingVertical: 20,
   },
 
@@ -249,7 +256,7 @@ export const styles = StyleSheet.create({
 
   menuTitle: {
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: '600',
     lineHeight: 30,
     color: 'rgb(68, 2, 2)',
   },
@@ -257,7 +264,7 @@ export const styles = StyleSheet.create({
   menuPrice: {
     color: 'rgb(68, 2, 2)',
     fontSize: 20,
-    fontWeight: 700,
+    fontWeight: '700',
   },
 
   menuUnit: {
@@ -306,7 +313,7 @@ export const styles = StyleSheet.create({
     fontSize: 32,
     lineHeight: 40,
     color: 'rgb(68, 2, 2)',
-    fontWeight: 700,
+    fontWeight: '700',
   },
 
   totalButton: {

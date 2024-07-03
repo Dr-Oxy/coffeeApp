@@ -1,11 +1,9 @@
 import { useContext } from 'react';
-import { Link } from 'expo-router';
 import { useNavigation } from '@react-navigation/native';
 
 import { StyleSheet, Modal, Pressable, View, Image, Text } from 'react-native';
 
 import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
 
 import { AppContext } from '@/utils/appContext';
 import { Item } from '@/utils/@types/context';
@@ -13,18 +11,18 @@ import { converIntl } from '@/utils/helper';
 
 type ModalProps = {
   openModal: boolean;
-  openOptions: () => void;
+  hide: () => void;
 };
 
 type NavigationOptions = {
   [key: string]: any;
 };
 
-export const ViewItem = ({ openModal, openOptions }: ModalProps) => {
+export const ViewItem = ({ openModal, hide }: ModalProps) => {
   const navigation = useNavigation<NavigationOptions>();
 
   const goToCart = () => {
-    openOptions();
+    hide();
     navigation.navigate('cart');
   };
 
@@ -54,16 +52,10 @@ export const ViewItem = ({ openModal, openOptions }: ModalProps) => {
       <Modal animationType="slide" transparent={true} visible={openModal}>
         <ThemedView style={styles.modal}>
           <ThemedView style={styles.modalBody}>
-            <Pressable onPress={openOptions} style={styles.button}>
-              <ThemedText
-                style={{
-                  fontSize: 20,
-                  color: 'white',
-                  fontWeight: 600,
-                }}
-              >
-                Continue Shopping
-              </ThemedText>
+            <Text style={styles.tag}>Added to cart </Text>
+
+            <Pressable onPress={hide} style={styles.button}>
+              <Text style={styles.continue}>Continue Shopping</Text>
             </Pressable>
 
             <View style={styles.menuItem}>
@@ -72,9 +64,7 @@ export const ViewItem = ({ openModal, openOptions }: ModalProps) => {
               </View>
 
               <View>
-                <ThemedText style={styles.menuTitle}>
-                  {selected?.title}
-                </ThemedText>
+                <Text style={styles.menuTitle}>{selected?.title}</Text>
                 <View>
                   <Text style={styles.menuPrice}>
                     ₦
@@ -106,7 +96,7 @@ export const ViewItem = ({ openModal, openOptions }: ModalProps) => {
               </View>
 
               <Pressable onPress={goToCart} style={styles.checkButton}>
-                <ThemedText style={styles.checkText}>Go to Checkout</ThemedText>
+                <Text style={styles.checkText}>Go to Checkout</Text>
               </Pressable>
             </View>
           </ThemedView>
@@ -126,13 +116,32 @@ export const styles = StyleSheet.create({
   modalBody: {
     paddingTop: 30,
     paddingHorizontal: 16,
-    borderRadius: 32,
+
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
     height: '80%',
-    backgroundColor: '#482B29',
+    backgroundColor: '#440202',
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
+  },
+
+  tag: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    borderRadius: 32,
+    fontSize: 18,
+    backgroundColor: 'green',
+    color: 'white',
+    padding: 10,
+  },
+
+  continue: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: '600',
   },
 
   button: {
@@ -167,7 +176,7 @@ export const styles = StyleSheet.create({
 
   menuTitle: {
     fontSize: 30,
-    fontWeight: 600,
+    fontWeight: '600',
     lineHeight: 30,
     color: 'white',
     textAlign: 'center',
@@ -176,7 +185,7 @@ export const styles = StyleSheet.create({
   menuPrice: {
     color: 'white',
     fontSize: 24,
-    fontWeight: 700,
+    fontWeight: '700',
     textAlign: 'center',
     marginTop: 10,
   },
